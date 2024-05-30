@@ -1,0 +1,90 @@
+<app-home></app-home>
+<div class="container">
+  <h2>Add New Recipe</h2>
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form [formGroup]="addRecipeForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="recipeName">Recipe Name</label>
+          <input type="text" formControlName="recipeName" id="recipeName" class="form-control">
+          <span *ngIf="addRecipeForm.get('recipeName')?.invalid && addRecipeForm.get('recipeName')?.touched" class="help-block">
+            Please enter recipe name!
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" formControlName="description" id="description" class="form-control">
+          <span *ngIf="addRecipeForm.get('description')?.invalid && addRecipeForm.get('description')?.touched" class="help-block">
+            Please enter description!
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="category">Select Category</label>
+          <select type="text" formControlName="category" id="category" class="form-control">
+            <option>manager</option>
+            <option>manager</option>
+            <option>manager</option>
+          </select>
+          <span *ngIf="addRecipeForm.get('category')?.touched" class="help-block">
+            Please enter category!
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="time">Time</label>
+          <input formControlName="time" type="time" id="time" class="form-control">
+          <span *ngIf="addRecipeForm.get('time')?.invalid && addRecipeForm.get('time')?.touched" class="help-block">
+            Please enter time!
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="level">Select Level</label>
+          <select formControlName="level" type="text" id="level" class="form-control">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+          <span *ngIf="addRecipeForm.get('level')?.touched" class="help-block">
+            Please enter level!
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="dateAdd">Date of Upload</label>
+          <input formControlName="dateAdd" type="date" id="dateAdd" class="form-control">
+        </div>
+        <div class="form-group" formArrayName="layers">
+            <label for="layers">Layers</label>
+            <button class="btn btn-primary" type="button" (click)="onAddLayer()">Add Layer</button>
+            <div *ngFor="let layerGroup of layersControls; let i = index" [formGroupName]="i" class="form-group">
+              <label>layer number:{{i + 1}}</label>
+              <input type="text" formControlName="layerTitle" class="form-control" placeholder="Layer title:">
+              <textarea formControlName="layerDescription" rows="3" class="form-control" placeholder="Layer description:"></textarea>
+            </div>
+          </div>
+
+        <div class="form-group">
+          <label for="instructions">Instructions</label>
+          <textarea type="text" id="instructions" class="form-control" formControlName="instructions"></textarea>
+          <span *ngIf="addRecipeForm.get('instructions')?.invalid && addRecipeForm.get('instructions')?.touched" class="help-block">
+            Please enter instructions!
+          </span>
+        </div>
+
+    
+        <div class="form-group">
+          <label for="image">Image</label>
+          <input formControlName="image" type="text" id="image" class="form-control">
+          <span *ngIf="addRecipeForm.get('image')?.invalid && addRecipeForm.get('image')?.touched" class="help-block">
+            Please enter image!
+          </span>
+        </div>
+        <label>Is private?</label>
+        <div class="radio" *ngFor="let private of private" id="isPrivate">
+          <input type="radio" formControlName="isPrivate" [value]="private">{{ private }}
+        </div>
+        <button class="btn btn-primary" type="submit" [disabled]="!addRecipeForm.valid">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
