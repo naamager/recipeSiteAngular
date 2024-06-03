@@ -1,24 +1,33 @@
 html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-  }
-  
-  .toolbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 9999; /* כדי להבטיח שהוא יהיה תמיד מעל התכנים האחרים */
-    padding: 10px
-  }
-  
-  .example-spacer {
-    flex: 1 1 auto; /* מרחב ריק בין שם האפליקציה לכפתורים */
-  }
-  
-  .content {
-    margin-top: 64px; /* גובה הטולבר כדי שהתוכן לא יתחיל מאחורי הטולבר */
-    padding: 16px;
-  }
-  
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  padding: 10px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.content {
+  margin-top: 20px;
+  padding: 16px;
+}
+
+.example-container {
+  display: coulm;
+  height: 100%;
+}
+
+.example-sidenav {
+  width: 240px;
+  margin-top:50px;;
+}

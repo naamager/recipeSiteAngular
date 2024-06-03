@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HomeComponent } from '../../pages/home/home.component';
+import { CategotyService } from '../../shared/services/categoty.service';
+import { Category } from '../../shared/models/category';
+
+
 
 @Component({
   selector: 'app-add-recipe',
@@ -14,7 +18,18 @@ export class AddRecipeComponent implements OnInit {
   private = ['yes', 'no'];
   addRecipeForm!: FormGroup;
 
+  private categoryServise = inject(CategotyService)
+  categories: Category[] = [];
+
+  
   ngOnInit() {
+    //  this.categoryServise.getAll().subscribe((data) => {
+    //     console.log(data,"naana");
+    // });
+    this.categoryServise.getAll().subscribe((data: any) => {
+      this.categories = data.map((category: any) => category);
+      console.log(this.categories, "naana");
+    });
     this.addRecipeForm = new FormGroup({
       /* מה שנשלח ראשון זה הערך ברירת מחדל והשני זה בדיקת תקינות */
       'recipeName': new FormControl(null, Validators.required),

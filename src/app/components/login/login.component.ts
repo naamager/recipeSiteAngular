@@ -18,6 +18,8 @@ export class LoginComponent {
   private router = inject(Router);
 
   private userService = inject(UsersService)
+  
+
   currentUser?: User;
   login = true
 
@@ -28,11 +30,11 @@ export class LoginComponent {
     this.userService
       .login({ email: e, password: form.form.value.password })
       .subscribe((data) => {
-        console.log(data.user,"dataaaa");
+        console.log(data.user, "dataaaa");
         this.userService.token = data.token;
-         const name=String(data.user.userName)
-       console.log(data.user.userName);
-       this.userService.connectedUser=name
+        const name = String(data.user.userName)
+        console.log(data.user.userName);
+        this.userService.connectedUser = name
         this.login = true;
         this.router.navigate(['/recipes']);
       }, (err) => {

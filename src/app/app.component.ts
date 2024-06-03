@@ -1,5 +1,5 @@
 import { CommonModule, UpperCasePipe } from '@angular/common';
-import { Component ,NgModule,importProvidersFrom,inject} from '@angular/core';
+import { Component ,NgModule,OnInit,importProvidersFrom,inject} from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
 import { UsersService } from './shared/services/users.service';
@@ -11,6 +11,7 @@ import { AddRecipeComponent } from './components/add-recipe/add-recipe.component
 import { routes } from './app.routes';
 import { RecipeCardComponent } from './components/recipe-card/recipe-card.component';
 import { HomeComponent } from './pages/home/home.component';
+import { CategotyService } from './shared/services/categoty.service';
 
 /* const appRoutes:Routes=[
   {path:'login',component: LoginComponent},
@@ -31,10 +32,17 @@ import { HomeComponent } from './pages/home/home.component';
   
 })
 
-export class AppComponent {
+export class AppComponent  {
   name = 'naama';
   private UsersService = inject(UsersService); 
+  private categoryServise = inject(CategotyService)
 
+
+/*   OnInit () {
+    this.categoryServise.getAll().subscribe((data) => {
+      console.log(data,"naana");
+    });
+  } */
 }
 bootstrapApplication(AppComponent/* , {
   providers: [

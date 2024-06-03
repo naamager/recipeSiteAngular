@@ -10,9 +10,9 @@ import { HttpClient } from '@angular/common/http';
 
 export class UsersService {
   
+  
   private http = inject(HttpClient);
   private usersURL = `${environment.apiURL}/users`;
-  
   
   constructor(){}
  

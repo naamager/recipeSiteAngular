@@ -1,13 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Recipe } from '../models/recipe';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
-  recipes:Recipe[];
+  private http = inject(HttpClient);
+  private recipeURL = `${environment.apiURL}/recipes`;
+ 
   constructor() {
-    this.recipes=[];
 
    }
+   getAll() {
+    return this.http.get(`${this.recipeURL}`);
+  }
 }

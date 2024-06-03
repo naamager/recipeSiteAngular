@@ -1,4 +1,4 @@
-<app-home></app-home>
+
 <div class="container">
   <h2>Add New Recipe</h2>
   <div class="row">
@@ -20,13 +20,11 @@
         </div>
         <div class="form-group">
           <label for="category">Select Category</label>
-          <select type="text" formControlName="category" id="category" class="form-control">
-            <option>manager</option>
-            <option>manager</option>
-            <option>manager</option>
+          <select formControlName="category" id="category" class="form-control">
+            <option *ngFor="let c of categories" [value]="c">{{ c .description}}</option>
           </select>
-          <span *ngIf="addRecipeForm.get('category')?.touched" class="help-block">
-            Please enter category!
+          <span *ngIf="addRecipeForm.get('category')?.touched && addRecipeForm.get('category')?.invalid" class="help-block">
+            Please select a category!
           </span>
         </div>
         <div class="form-group">
@@ -45,7 +43,7 @@
             <option>4</option>
             <option>5</option>
           </select>
-          <span *ngIf="addRecipeForm.get('level')?.touched" class="help-block">
+          <span *ngIf="addRecipeForm.get('level')?.touched &&addRecipeForm.get('level')?.invalid" class="help-block">
             Please enter level!
           </span>
         </div>
