@@ -4,6 +4,7 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { AddRecipeComponent } from './components/add-recipe/add-recipe.component';
 import { HomeComponent } from './pages/home/home.component';
 import { RecipeCardComponent } from './components/recipe-card/recipe-card.component';
+import { FullRecipeComponent } from './components/full-recipe/full-recipe.component';
 
 export const routes: Routes = [
      { path: '', component: RecipeCardComponent },
@@ -11,5 +12,6 @@ export const routes: Routes = [
     { path: 'signup', component: SignUpComponent },
     { path: 'addRecipe', component: AddRecipeComponent },
     { path: 'home', component: HomeComponent },
-    { path: 'recipes', component: RecipeCardComponent }
+    { path: 'recipes', component: RecipeCardComponent },
+    { path: 'fullRecipe', component: FullRecipeComponent}
 ];

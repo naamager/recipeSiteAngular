@@ -33,10 +33,12 @@ export class LoginComponent {
         console.log(data.user, "dataaaa");
         this.userService.token = data.token;
         const name = String(data.user.userName)
-        console.log(data.user.userName);
+        const emailu = String(data.user.email)
         this.userService.connectedUser = name
+        this.userService.connectedUserEmail = emailu
         this.login = true;
         this.router.navigate(['/recipes']);
+        
       }, (err) => {
         console.log(err);
         this.login = false;

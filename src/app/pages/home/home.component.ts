@@ -14,43 +14,36 @@ import { RouterModule } from '@angular/router';
 import { CategotyService } from '../../shared/services/categoty.service';
 import { Category } from '../../shared/models/category';
 
-
-
-
-
 @Component({
     selector: 'app-home',
     standalone: true,
-    imports: [MatToolbarModule, MatButtonModule,RouterModule,
-       MatIconModule, MatTooltipModule,MatSidenavModule,MatListModule,
-        NgIconComponent,CommonModule],
+    imports: [MatToolbarModule, MatButtonModule, RouterModule,
+        MatIconModule, MatTooltipModule, MatSidenavModule, MatListModule,
+        NgIconComponent, CommonModule],
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
     viewProviders: [provideIcons({ heroPlus })]
 })
 export class HomeComponent {
-navigateToCategory(_t28: string) {
-throw new Error('Method not implemented.');
-}
     @ViewChild('drawer') drawer!: MatDrawer;
-    private categoryServise = inject(CategotyService)
+    private categoryService = inject(CategotyService)
     categories: Category[] = [];
-
-
 
     private router = inject(Router);
     ifconnect = localStorage['connectedUser'] != undefined ? true : false;
     userName = localStorage['connectedUser'] || "visitor";
+    userEmail = localStorage['connectedUserEmail'];
+    showAllRecipes = false;
 
     toggleDrawer() {
         this.drawer.toggle();
-        this.categoryServise.getAll().subscribe((data: any) => {
-          this.categories = data.map((category: any) => category);
-          console.log( this.categories ,"ההההה");
+        this.categoryService.getAll().subscribe((data: any) => {
+            this.categories = data.map((category: any) => category);
+            console.log(this.categories, "ההההה");
         });
     }
 
-    navigateToRecipes() {
+    navigateToLogin() {
         this.router.navigate(['/login']);
     }
 
@@ -59,5 +52,15 @@ throw new Error('Method not implemented.');
         this.router.navigate(['/addRecipe']);
     }
 
-    
+    navigateToMyRecipe() {
+        if (this.showAllRecipes) {
+            // Navigate to all recipes without query parameter
+            this.router.navigate(['/recipes']);
+        } else {
+            // Navigate to user-specific recipes with query parameter
+            this.router.navigate(['/recipes'], { queryParams: { userEmail: this.userEmail } });
+        }
+        // Toggle the showAllRecipes flag
+        this.showAllRecipes = !this.showAllRecipes;
+    }
 }

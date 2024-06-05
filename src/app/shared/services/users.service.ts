@@ -38,6 +38,16 @@ export class UsersService {
     }
   }
 
+  public get connectedUserEmail(): string | null {
+    return localStorage.getItem('connectedUserEmail');
+  }
+
+  public set connectedUserEmail(user: string | null) {
+    if (user) {
+      localStorage.setItem('connectedUserEmail', user);
+    }
+  }
+
 
   signup(addUser: User) {
     return this.http.post<{ user: User; token: string }>(
