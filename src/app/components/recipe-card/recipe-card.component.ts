@@ -15,12 +15,11 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./recipe-card.component.scss']
 })
 export class RecipeCardComponent implements OnInit {
-  private recipeService = inject(RecipeService)
+  private recipeService = inject(RecipeService);
   recipes: Recipe[] = [];
   userEmail: string | null = null;
   recipeId: string | null = null;
   private router = inject(Router);
-
 
   constructor(private route: ActivatedRoute) {}
 
@@ -37,11 +36,16 @@ export class RecipeCardComponent implements OnInit {
           this.recipes = data;
         }
         console.log(this.recipes, "Filtered Recipes");
+        if (this.recipes.length > 0) {
+          const firstRecipe = this.recipes[0] as any;  // להק לאובייקט עם _id
+          console.log(firstRecipe, "First Recipe");
+          console.log(firstRecipe._id, "First Recipe ID");
+        }
       });
     });
   }
-  toFullDetails(){
-    this.router.navigate(['/fullRecipe']);
 
+  toFullDetails(recipe: any) {
+    this.router.navigate(['/fullRecipe'], { queryParams: { id: recipe._id } });
   }
 }

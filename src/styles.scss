@@ -2,3 +2,18 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.star {
+    font-size: 24px;
+    margin-right: 2px;
+  }
+  
+  .star.filled::before {
+    content: '★';
+    color: gold;
+  }
+  
+  .star.empty::before {
+    content: '☆';
+    color: gold;
+  }
+  

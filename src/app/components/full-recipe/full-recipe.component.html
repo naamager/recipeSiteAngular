@@ -1,1 +1,38 @@
-<p>full-recipe works!</p>
+<div *ngIf="recipe">
+    <mat-card class="recipe-card">
+      <mat-card-header>
+        <mat-card-title>{{ recipe.recipeName }}</mat-card-title>
+        <mat-card-subtitle>{{ recipe.descripition }}</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image [src]="recipe.image" alt="Recipe image">
+      <mat-card-content>
+        <p><strong>Time to Prepare:</strong> {{ recipe.time | timeFormat }}</p>
+        <p><strong>Level:</strong></p>
+        <div class="stars">
+          <app-star *appRepeat="recipe.level" [filled]="true"></app-star>
+          <app-star *appRepeat="5 - recipe.level" [filled]="false"></app-star>
+        </div>
+      
+        <p><strong>Layers:</strong></p>
+        <ul>
+            <li *ngFor="let layer of recipe.layers">
+              <strong>{{ layer.descripitionOfLayer }}</strong>
+              <ul>
+                <li *ngFor="let ingredient of layer.ingredients">
+                  {{ ingredient.trim() }}
+                </li>
+              </ul>
+            </li>
+          </ul>
+        <p><strong>Instructions:</strong></p>
+        <div [innerHTML]="recipe.instructions | newline"></div> 
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary">Back</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div *ngIf="!recipe">
+    <p>Loading recipe details...</p>
+  </div>
+  
