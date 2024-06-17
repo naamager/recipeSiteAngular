@@ -1,8 +1,22 @@
+<div class="filter-container">
+  <button mat-button (click)="toggleFilter()" class="filter-button">
+    Level
+  </button>
+  <div *ngIf="showFilter" class="checkbox-container">
+    <div *ngFor="let level of levels" class="level-filter">
+      <input type="checkbox" [id]="'level' + level" [(ngModel)]="selectedLevels[level]" (change)="filterRecipes()" />
+      <label [for]="'level' + level">
+        <app-star *ngFor="let star of [].constructor(level)" [filled]="true"></app-star>
+        <app-star *ngFor="let star of [].constructor(5 - level)" [filled]="false"></app-star>
+      </label>
+    </div>
+  </div>
+</div>
+
 <div class="card-container">
-  <mat-card class="example-card" *ngFor="let recipe of recipes" id="recipe">
+  <mat-card class="example-card" *ngFor="let recipe of filteredRecipes" id="recipe">
     <mat-card-header>
-<!--       <div mat-card-avatar class="example-header-image"></div>
- -->      <mat-card-title>{{recipe.recipeName}}</mat-card-title>
+      <mat-card-title>{{recipe.recipeName}}</mat-card-title>
       <mat-card-subtitle>{{recipe.userRecipe[0].UserName}}</mat-card-subtitle>
     </mat-card-header>
     <img mat-card-image [src]="recipe.image" alt="Recipe image" class="fixed-size-image">

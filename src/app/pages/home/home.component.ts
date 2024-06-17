@@ -1,3 +1,4 @@
+// home.component.ts
 import { Component, inject, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,12 +36,20 @@ export class HomeComponent {
     userEmail = localStorage['connectedUserEmail'];
     showAllRecipes = false;
 
+   
     toggleDrawer() {
         this.drawer.toggle();
         this.categoryService.getAll().subscribe((data: any) => {
-            this.categories = data.map((category: any) => category);
+            this.categories = [{ id: 'all', description: 'All' }, ...data.map((category: any) => category)];
             console.log(this.categories, "ההההה");
         });
+    }
+    selectCategory(category: Category) {
+        this.drawer.close();
+        const categoryid = category as any;
+        console.log(categoryid._id,"sss");
+        
+        this.router.navigate(['/recipes'], { queryParams: { categoryId: categoryid._id } });
     }
 
     navigateToLogin() {
@@ -54,13 +63,10 @@ export class HomeComponent {
 
     navigateToMyRecipe() {
         if (this.showAllRecipes) {
-            // Navigate to all recipes without query parameter
             this.router.navigate(['/recipes']);
         } else {
-            // Navigate to user-specific recipes with query parameter
             this.router.navigate(['/recipes'], { queryParams: { userEmail: this.userEmail } });
         }
-        // Toggle the showAllRecipes flag
         this.showAllRecipes = !this.showAllRecipes;
     }
 }

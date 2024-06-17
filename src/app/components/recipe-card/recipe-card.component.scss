@@ -25,3 +25,66 @@
     height: 200px; /* הגדר את הגובה הרצוי */
     object-fit: cover; /* מתאים את התמונה לגודל הקבוע */
   }
+  .filter-container {
+    position: fixed;
+    top: 100px; /* Adjust the value to position the button further down */
+    right: 20px; /* Adjust the value to position the button from the right edge */
+    z-index: 1000; /* Ensure the filter container is above other content */
+    background: #fff; /* Background color for better visibility */
+    padding: 10px; /* Padding around the content */
+    border-radius: 4px; /* Rounded corners for the container */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for better appearance */
+  
+    .filter-button {
+      background-color: transparent;
+      border: none;
+      color: #007bff;
+      cursor: pointer;
+      font-size: 1rem;
+      text-transform: uppercase;
+      width: 100%; /* Make the button take the full width */
+  
+      &:hover {
+        color: #0056b3;
+      }
+  
+      &:focus {
+        outline: none;
+      }
+    }
+  
+    .checkbox-container {
+      margin-top: 0.5rem;
+  
+      .level-filter {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem; /* Space between checkboxes */
+      }
+  
+      input {
+        margin-right: 0.5rem;
+      }
+  
+      app-star {
+        margin-left: 0.5rem; /* Space between checkbox and stars */
+      }
+    }
+  }
+  
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 60px; /* Adjust based on your design to create space for the filter button */
+  
+    .example-card {
+      width: calc(33.333% - 1rem); /* Adjust the width based on your design */
+    }
+  }
+  
+  .fixed-size-image {
+    height: 200px; /* Adjust the height based on your design */
+    object-fit: cover;
+  }
+  

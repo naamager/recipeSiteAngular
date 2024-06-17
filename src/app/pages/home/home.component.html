@@ -1,3 +1,4 @@
+<!-- home.component.html -->
 <mat-toolbar class="toolbar">
     <button mat-icon-button class="example-icon" matTooltip="categories" aria-label="Example icon-button with menu icon"
         (click)="toggleDrawer()">
@@ -7,7 +8,7 @@
     <span class="example-spacer"></span>
     <div *ngIf="ifconnect">
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with user icon"
-            [matTooltip]="showAllRecipes ?   'All Recipes':'Your Recipes'"
+            [matTooltip]="showAllRecipes ? 'All Recipes':'Your Recipes'"
             (click)="navigateToMyRecipe()">
             <mat-icon>menu_book</mat-icon>
         </button>
@@ -27,7 +28,7 @@
 <mat-drawer-container class="example-container" autosize>
     <mat-drawer #drawer mode="side" class="example-sidenav">
         <mat-nav-list>
-            <a mat-list-item *ngFor="let category of categories">
+            <a mat-list-item *ngFor="let category of categories" (click)="selectCategory(category)">
                 {{ category.description }}
             </a>
         </mat-nav-list>
