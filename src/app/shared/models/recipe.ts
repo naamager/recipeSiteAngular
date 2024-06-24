@@ -1,5 +1,5 @@
 export interface Recipe {
-    id:string,
+    _id?:string,
     recipeName:string,
     descripition:string,
     categories:{
@@ -7,7 +7,7 @@ export interface Recipe {
     }[],
     time:number,
     level:number,
-    dateAdd:Date,
+   
     layers:{
         descripitionOfLayer:string,
         ingredients:string
@@ -16,7 +16,8 @@ export interface Recipe {
     image:string,
     isPrivate:boolean,
     userRecipe:[{
-        id:number,
-        UserName:string
+        _id:number,
+        UserName:string,
+        email:string
     }]
 }

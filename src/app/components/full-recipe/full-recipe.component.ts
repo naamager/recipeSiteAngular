@@ -30,8 +30,7 @@ export class FullRecipeComponent implements OnInit {
         this.recipeService.getRecipeById(this.recipeId).subscribe(
           (data: Recipe) => {
             this.recipe = data;
-            console.log(this.recipe); // בדוק שהמתכון התקבל בהצלחה
-            console.log(this.recipe.layers[0].ingredients); 
+        
           },
           error => {
             console.error('Error fetching recipe:', error);

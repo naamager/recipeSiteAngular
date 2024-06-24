@@ -20,14 +20,17 @@ export class SignUpComponent {
 
   private userService = inject(UsersService)
   onSubmit(form: NgForm) {
+    
     console.log("wowowoo", form.form.value);
     console.log("wowowoo", form.form.value.userData);
     const e = form.form.value.userData
     const n= form.form.value.userData.username
     console.log("aaaaaa", n);
+   this.currentUser={ userName:n, email: e.email, password: e.password, address: e.address, role: e.role }
+
   debugger
     this.userService
-      .signup({ userName:n, email: e.email, password: e.password, address: e.address, role: e.role })
+      .signup(this.currentUser)
       .subscribe((data) => {
         console.log(data);
         this.userService.token = data.token;

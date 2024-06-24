@@ -1,14 +1,47 @@
 <div class="filter-container">
-  <button mat-button (click)="toggleFilter()" class="filter-button">
-    Level
-  </button>
-  <div *ngIf="showFilter" class="checkbox-container">
-    <div *ngFor="let level of levels" class="level-filter">
-      <input type="checkbox" [id]="'level' + level" [(ngModel)]="selectedLevels[level]" (change)="filterRecipes()" />
-      <label [for]="'level' + level">
-        <app-star *ngFor="let star of [].constructor(level)" [filled]="true"></app-star>
-        <app-star *ngFor="let star of [].constructor(5 - level)" [filled]="false"></app-star>
-      </label>
+  <div class="filter-button-container">
+    <button mat-button (click)="toggleFilter()">Filter by Level</button>
+    <div *ngIf="showFilter" class="filter-options">
+      <div *ngFor="let level of levels">
+        <label>
+          <input type="checkbox" [(ngModel)]="selectedLevels[level]" (change)="filterRecipes()">
+          <span>
+            <app-star *ngFor="let star of createArray(level)" [filled]="true"></app-star>
+            <app-star *ngFor="let star of createArray(5 - level)" [filled]="false"></app-star>
+          </span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-button-container">
+    <button mat-button (click)="toggleTimeFilter()">Filter by Time</button>
+    <div *ngIf="showTimeFilter" class="filter-options vertical-options">
+      <div>
+        <label>
+          <input type="radio" name="time" [value]="15" [(ngModel)]="selectedTime" (change)="filterRecipes()"> 1\4 hour
+        </label>
+      </div>
+      <div>
+        <label>
+          <input type="radio" name="time" [value]="30" [(ngModel)]="selectedTime" (change)="filterRecipes()"> 1\2 hour
+        </label>
+      </div>
+      <div>
+        <label>
+          <input type="radio" name="time" [value]="60" [(ngModel)]="selectedTime" (change)="filterRecipes()"> 1 hour
+        </label>
+      </div>
+      <div>
+        <label>
+          <input type="radio" name="time" [value]="90" [(ngModel)]="selectedTime" (change)="filterRecipes()"> 2 hours
+        </label>
+      </div>
+      <div>
+        <label>
+          <input type="radio" name="time" [value]="null" [(ngModel)]="selectedTime" (change)="filterRecipes()"> Show all
+        </label>
+      </div>
     </div>
   </div>
 </div>
@@ -16,12 +49,25 @@
 <div class="card-container">
   <mat-card class="example-card" *ngFor="let recipe of filteredRecipes" id="recipe">
     <mat-card-header>
-      <mat-card-title>{{recipe.recipeName}}</mat-card-title>
-      <mat-card-subtitle>{{recipe.userRecipe[0].UserName}}</mat-card-subtitle>
+      <mat-card-title>{{ recipe.recipeName }}</mat-card-title>
+      <mat-card-subtitle>{{ recipe.userRecipe[0].UserName }}</mat-card-subtitle>
     </mat-card-header>
     <img mat-card-image [src]="recipe.image" alt="Recipe image" class="fixed-size-image">
     <mat-card-actions>
       <button mat-button (click)="toFullDetails(recipe)">See More</button>
+      <button *ngIf="isUserRecipes" mat-icon-button matTooltip="Delete" (click)="confirmDelete(recipe)">
+        <mat-icon>delete</mat-icon>
+      </button>
     </mat-card-actions>
   </mat-card>
+</div>
+
+<div class="pagination-container">
+  <button mat-icon-button (click)="previousPage()" [disabled]="page === 1">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+  <span>Page {{ page }} of {{ totalPages }}</span>
+  <button mat-icon-button (click)="nextPage()" [disabled]="page === totalPages">
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
 </div>

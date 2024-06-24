@@ -1,44 +1,37 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HomeComponent } from '../../pages/home/home.component';
-import { CategotyService } from '../../shared/services/categoty.service';
+import { CommonModule } from '@angular/common';
+import { CategotyService } from '../../shared/services/categoty.service';// ודא ששם השירות תקין
 import { Category } from '../../shared/models/category';
-
-
+import { Recipe } from '../../shared/models/recipe';
 
 @Component({
   selector: 'app-add-recipe',
   standalone: true,
-  imports: [FormsModule, CommonModule, ReactiveFormsModule, HomeComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './add-recipe.component.html',
-  styleUrl: './add-recipe.component.scss'
+  styleUrls: ['./add-recipe.component.scss']
 })
 export class AddRecipeComponent implements OnInit {
   private = ['yes', 'no'];
   addRecipeForm!: FormGroup;
+  recipeModel?: Recipe;
 
-  private categoryServise = inject(CategotyService)
+  private categoryService = inject(CategotyService); // ודא ששם השירות תקין
   categories: Category[] = [];
 
-  
   ngOnInit() {
-    //  this.categoryServise.getAll().subscribe((data) => {
-    //     console.log(data,"naana");
-    // });
-    this.categoryServise.getAll().subscribe((data: any) => {
-      this.categories = data.map((category: any) => category);
-      console.log(this.categories, "naana");
+    this.categoryService.getAll().subscribe((data: Category[]) => {
+      this.categories = data;
+      console.log(this.categories, "Categories Loaded");
     });
+
     this.addRecipeForm = new FormGroup({
-      /* מה שנשלח ראשון זה הערך ברירת מחדל והשני זה בדיקת תקינות */
       'recipeName': new FormControl(null, Validators.required),
       'description': new FormControl(null, Validators.required),
-      'category': new FormControl(null),
+      'category': new FormControl(null, Validators.required),
       'time': new FormControl(null, [Validators.required]),
       'level': new FormControl(null),
-      /* להתחל את התאריך להיום */
-      'dateAdd': new FormControl(new Date()),
       'instructions': new FormControl(null, Validators.required),
       'layers': new FormArray([]),
       'image': new FormControl(null, Validators.required),
@@ -47,7 +40,26 @@ export class AddRecipeComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.addRecipeForm);
+    const formValues = this.addRecipeForm.value;
+    console.log(formValues);
+    console.log('Form Category Value:', formValues.category);
+
+    // מצא את הקטגוריה שנבחרה לפי ה-ID שלה
+    const selectedCategory = this.categories.find(c => c.id === formValues.category);
+    console.log('Selected Category:', selectedCategory); // הוסף הדפסה לבדיקת הערך שנמצא
+     
+
+     // this.recipeModel={
+    //   "recipeName":this.addRecipeForm.controls['recipeName'].value,
+    //   "descripition":this.addRecipeForm.controls['descripition'].value,
+    //   "categories":this.addRecipeForm.controls['categories'].value,
+    //   "time":this.addRecipeForm.controls['recipeName'].value,
+    //   "level":this.addRecipeForm.controls['recipeName'].value,
+    //   "layers":this.addRecipeForm.controls['recipeName'].value,
+    //   "instructions":this.addRecipeForm.controls['recipeName'].value,
+    //   "image":this.addRecipeForm.controls['recipeName'].value,
+    //   "isPrivate":this.addRecipeForm.controls['recipeName'].value,
+    //   "userRecipe":this.addRecipeForm.controls['recipeName'].value,
   }
 
   onAddLayer() {

@@ -1,4 +1,3 @@
-
 <div class="container">
   <h2>Add New Recipe</h2>
   <div class="row">
@@ -21,7 +20,7 @@
         <div class="form-group">
           <label for="category">Select Category</label>
           <select formControlName="category" id="category" class="form-control">
-            <option *ngFor="let c of categories" [value]="c">{{ c .description}}</option>
+            <option *ngFor="let c of categories" [value]="c.id">{{ c.description }}</option>
           </select>
           <span *ngIf="addRecipeForm.get('category')?.touched && addRecipeForm.get('category')?.invalid" class="help-block">
             Please select a category!
@@ -36,40 +35,29 @@
         </div>
         <div class="form-group">
           <label for="level">Select Level</label>
-          <select formControlName="level" type="text" id="level" class="form-control">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+          <select formControlName="level" id="level" class="form-control">
+            <option *ngFor="let i of [1,2,3,4,5]" [value]="i">{{ i }}</option>
           </select>
-          <span *ngIf="addRecipeForm.get('level')?.touched &&addRecipeForm.get('level')?.invalid" class="help-block">
+          <span *ngIf="addRecipeForm.get('level')?.touched && addRecipeForm.get('level')?.invalid" class="help-block">
             Please enter level!
           </span>
         </div>
-        <div class="form-group">
-          <label for="dateAdd">Date of Upload</label>
-          <input formControlName="dateAdd" type="date" id="dateAdd" class="form-control">
-        </div>
         <div class="form-group" formArrayName="layers">
-            <label for="layers">Layers</label>
-            <button class="btn btn-primary" type="button" (click)="onAddLayer()">Add Layer</button>
-            <div *ngFor="let layerGroup of layersControls; let i = index" [formGroupName]="i" class="form-group">
-              <label>layer number:{{i + 1}}</label>
-              <input type="text" formControlName="layerTitle" class="form-control" placeholder="Layer title:">
-              <textarea formControlName="layerDescription" rows="3" class="form-control" placeholder="Layer description:"></textarea>
-            </div>
+          <label for="layers">Layers</label>
+          <button class="btn btn-primary" type="button" (click)="onAddLayer()">Add Layer</button>
+          <div *ngFor="let layerGroup of layersControls; let i = index" [formGroupName]="i" class="form-group">
+            <label>Layer number: {{i + 1}}</label>
+            <input type="text" formControlName="layerTitle" class="form-control" placeholder="Layer title:">
+            <textarea formControlName="layerDescription" rows="3" class="form-control" placeholder="Layer description:"></textarea>
           </div>
-
+        </div>
         <div class="form-group">
           <label for="instructions">Instructions</label>
-          <textarea type="text" id="instructions" class="form-control" formControlName="instructions"></textarea>
+          <textarea id="instructions" class="form-control" formControlName="instructions"></textarea>
           <span *ngIf="addRecipeForm.get('instructions')?.invalid && addRecipeForm.get('instructions')?.touched" class="help-block">
             Please enter instructions!
           </span>
         </div>
-
-    
         <div class="form-group">
           <label for="image">Image</label>
           <input formControlName="image" type="text" id="image" class="form-control">
