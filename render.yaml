@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: recipe.client-side
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build:staging
+    startCommand: npx serve -s dist/recipe.client-side
+    envVars:
+      - key: NODE_ENV
+        value: production
+    
