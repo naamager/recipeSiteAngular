@@ -19,7 +19,7 @@
           "options": {
             "outputPath": "dist/recipe.client-side",
             "index": "src/index.html",
-            "browser": "src/main.ts",
+            "main": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -34,9 +34,10 @@
               "src/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.css"
-
             ],
-            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.js"]
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -61,16 +62,13 @@
               "outputHashing": "all"
             },
             "development": {
-             
               "optimization": false,
-           
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
-            }
-          },
-          "staging":{
-            "fileReplacements": [
+            },
+            "staging": {
+              "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.staging.ts"
@@ -96,6 +94,7 @@
                   "maximumError": "10kb"
                 }
               ]
+            }
           },
           "defaultConfiguration": "production"
         },
@@ -103,10 +102,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "recipe.clientSide:build:production"
+              "browserTarget": "recipe.clientSide:build:production"
             },
             "development": {
-              "buildTarget": "recipe.clientSide:build:development"
+              "browserTarget": "recipe.clientSide:build:development"
             },
             "staging": {
               "browserTarget": "recipe.clientSide:build:staging"
@@ -117,7 +116,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "recipe.clientSide:build"
+            "browserTarget": "recipe.clientSide:build"
           }
         },
         "test": {
