@@ -34,7 +34,6 @@
               "src/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.css"
-
             ],
             "scripts": ["node_modules/bootstrap/dist/js/bootstrap.js"]
           },
@@ -61,16 +60,13 @@
               "outputHashing": "all"
             },
             "development": {
-             
               "optimization": false,
-           
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
-            }
-          },
-          "staging":{
-            "fileReplacements": [
+            },
+            "staging": {
+              "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.staging.ts"
@@ -96,6 +92,7 @@
                   "maximumError": "10kb"
                 }
               ]
+            }
           },
           "defaultConfiguration": "production"
         },
