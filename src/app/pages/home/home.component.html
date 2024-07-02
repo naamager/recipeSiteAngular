@@ -13,12 +13,19 @@
             <mat-icon>menu_book</mat-icon>
         </button>
     </div>
+    
     <div *ngIf="ifconnect" [matTooltip]="'Add Recipe'">
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with user icon"
             (click)="navigateToAdd()">
             <ng-icon name="heroPlus"></ng-icon>
         </button>
     </div>
+        <div *ngIf="ifconnect" [matTooltip]="'Logout'">
+        <button mat-icon-button class="example-icon" aria-label="Logout" matTooltip="Logout" (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+           
+        </button>
+    </div> 
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with user icon"
         matTooltip="Login/Sign-up" (click)="navigateToLogin()">
         <i class="bi bi-person"></i>

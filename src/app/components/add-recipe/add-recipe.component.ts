@@ -1,9 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { CategotyService } from '../../shared/services/categoty.service';// ודא ששם השירות תקין
+import { CategotyService } from '../../shared/services/categoty.service'; // ודא ששם השירות תקין
 import { Category } from '../../shared/models/category';
 import { Recipe } from '../../shared/models/recipe';
+import { RecipeService } from '../../shared/services/recipe.service';
 
 @Component({
   selector: 'app-add-recipe',
@@ -16,9 +17,11 @@ export class AddRecipeComponent implements OnInit {
   private = ['yes', 'no'];
   addRecipeForm!: FormGroup;
   recipeModel?: Recipe;
-
+  private recipeService = inject(RecipeService)
   private categoryService = inject(CategotyService); // ודא ששם השירות תקין
   categories: Category[] = [];
+  showAddCategory = false;
+  newCategory = '';
 
   ngOnInit() {
     this.categoryService.getAll().subscribe((data: Category[]) => {
@@ -39,27 +42,56 @@ export class AddRecipeComponent implements OnInit {
     });
   }
 
+  onCategoryChange(event: any) {
+    if (event.target.value === 'add-category') {
+      this.showAddCategory = true;
+    } else {
+      this.showAddCategory = false;
+    }
+  }
+
+  addNewCategory() {
+    const newCategory: Category = {
+      id: this.categories.length + 1,
+      description: this.newCategory,
+    
+    };
+    this.categories.push(newCategory);
+    this.addRecipeForm.patchValue({ category: newCategory.id });
+    this.showAddCategory = false;
+    this.newCategory = '';
+  }
+
   onSubmit() {
     const formValues = this.addRecipeForm.value;
     console.log(formValues);
     console.log('Form Category Value:', formValues.category);
 
-    // מצא את הקטגוריה שנבחרה לפי ה-ID שלה
     const selectedCategory = this.categories.find(c => c.id === formValues.category);
-    console.log('Selected Category:', selectedCategory); // הוסף הדפסה לבדיקת הערך שנמצא
-     
+    console.log('Selected Category:', selectedCategory);
+    debugger
 
-     // this.recipeModel={
-    //   "recipeName":this.addRecipeForm.controls['recipeName'].value,
-    //   "descripition":this.addRecipeForm.controls['descripition'].value,
-    //   "categories":this.addRecipeForm.controls['categories'].value,
-    //   "time":this.addRecipeForm.controls['recipeName'].value,
-    //   "level":this.addRecipeForm.controls['recipeName'].value,
-    //   "layers":this.addRecipeForm.controls['recipeName'].value,
-    //   "instructions":this.addRecipeForm.controls['recipeName'].value,
-    //   "image":this.addRecipeForm.controls['recipeName'].value,
-    //   "isPrivate":this.addRecipeForm.controls['recipeName'].value,
-    //   "userRecipe":this.addRecipeForm.controls['recipeName'].value,
+    this.recipeModel = {
+      "recipeName": this.addRecipeForm.controls['recipeName'].value,
+      "descripition": this.addRecipeForm.controls['description'].value,
+      "categories": [selectedCategory ? { categoryName: selectedCategory.description } : { categoryName: "Unknown" }],
+      "time": this.addRecipeForm.controls['time'].value,
+      "level": this.addRecipeForm.controls['level'].value,
+      "layers": this.addRecipeForm.controls['layers'].value,
+      "instructions": this.addRecipeForm.controls['instructions'].value,
+      "image": this.addRecipeForm.controls['image'].value,
+      "isPrivate": this.addRecipeForm.controls['isPrivate'].value,
+      "userRecipe": this.addRecipeForm.controls['userRecipe']?.value || '' // assuming 'userRecipe' is part of the form
+    }
+    debugger
+
+    this.recipeService.addRecipe(this.recipeModel).subscribe((data) => {
+      console.log(data);
+      this.recipeService.token = data.token;
+
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   onAddLayer() {

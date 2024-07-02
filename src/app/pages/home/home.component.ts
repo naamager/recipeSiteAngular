@@ -69,4 +69,11 @@ export class HomeComponent {
         }
         this.showAllRecipes = !this.showAllRecipes;
     }
+    logout() {
+        localStorage.removeItem('connectedUser');
+        localStorage.removeItem('connectedUserEmail');
+        this.ifconnect = false;
+        this.userName = "visitor";
+        this.userEmail = undefined;
+    }
 }

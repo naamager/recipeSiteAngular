@@ -2,7 +2,7 @@ export interface Recipe {
     _id?:string,
     recipeName:string,
     descripition:string,
-    categories:{
+    categories?:{
         categoryName:string
     }[],
     time:number,

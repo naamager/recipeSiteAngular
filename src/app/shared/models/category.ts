@@ -1,7 +1,7 @@
 export interface Category {
     id:number,
     description:string,
-    recipes:{
+    recipes?:{
         id:number,
         recipeName:string,
         recipeImage:string

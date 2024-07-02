@@ -57,12 +57,30 @@ export class RecipeCardComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      this.search = params['search'] || '';
-      this.page = +params['page'] || 1;
-      this.limit = +params['limit'] || 6;
-      this.fetchRecipes();
+        this.userEmail = params['userEmail'] || null;
+        this.categoryId = params['categoryId'] || null;
+        this.isUserRecipes = this.userEmail !== null;
+        this.search = params['search'] || '';
+        this.page = +params['page'] || 1;
+        this.limit = +params['limit'] || 6;
+
+        this.recipeService.getAll(this.search, this.page, this.limit).subscribe((data: any) => {
+            if (this.userEmail) {
+                this.recipes = data.recipes.filter((recipe: any) =>
+                    recipe.userRecipe.some((user: any) => user.email === this.userEmail)
+                );
+            } else if (this.categoryId) {
+                this.recipes = data.recipes.filter((recipe: any) =>
+                    recipe.categories[0]._id === this.categoryId
+                );
+            } else {
+                this.recipes = data.recipes;
+            }
+            this.totalPages = data.totalPages;
+            this.applyFilters();
+        });
     });
-  }
+}
   fetchRecipes() {
     this.recipeService.getAll(this.search, this.page, this.limit).subscribe(
       data => {
