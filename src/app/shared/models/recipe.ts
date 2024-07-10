@@ -16,7 +16,7 @@ export interface Recipe {
     image:string,
     isPrivate:boolean,
     userRecipe:[{
-        _id:number,
+        _id:string,
         UserName:string,
         email:string
     }]

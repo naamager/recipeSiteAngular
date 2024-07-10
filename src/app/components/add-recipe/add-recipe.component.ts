@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { CategotyService } from '../../shared/services/categoty.service'; // ודא ששם השירות תקין
+import { CategotyService } from '../../shared/services/categoty.service';
 import { Category } from '../../shared/models/category';
 import { Recipe } from '../../shared/models/recipe';
 import { RecipeService } from '../../shared/services/recipe.service';
@@ -17,8 +17,8 @@ export class AddRecipeComponent implements OnInit {
   private = ['yes', 'no'];
   addRecipeForm!: FormGroup;
   recipeModel?: Recipe;
-  private recipeService = inject(RecipeService)
-  private categoryService = inject(CategotyService); // ודא ששם השירות תקין
+  private recipeService = inject(RecipeService);
+  private categoryService = inject(CategotyService);
   categories: Category[] = [];
   showAddCategory = false;
   newCategory = '';
@@ -34,7 +34,7 @@ export class AddRecipeComponent implements OnInit {
       'description': new FormControl(null, Validators.required),
       'category': new FormControl(null, Validators.required),
       'time': new FormControl(null, [Validators.required]),
-      'level': new FormControl(null),
+      'level': new FormControl(null, Validators.required),
       'instructions': new FormControl(null, Validators.required),
       'layers': new FormArray([]),
       'image': new FormControl(null, Validators.required),
@@ -54,7 +54,6 @@ export class AddRecipeComponent implements OnInit {
     const newCategory: Category = {
       id: this.categories.length + 1,
       description: this.newCategory,
-    
     };
     this.categories.push(newCategory);
     this.addRecipeForm.patchValue({ category: newCategory.id });
@@ -64,45 +63,56 @@ export class AddRecipeComponent implements OnInit {
 
   onSubmit() {
     const formValues = this.addRecipeForm.value;
-    console.log(formValues);
-    console.log('Form Category Value:', formValues.category);
 
     const selectedCategory = this.categories.find(c => c.id === formValues.category);
-    console.log('Selected Category:', selectedCategory);
-    debugger
 
-    this.recipeModel = {
-      "recipeName": this.addRecipeForm.controls['recipeName'].value,
-      "descripition": this.addRecipeForm.controls['description'].value,
-      "categories": [selectedCategory ? { categoryName: selectedCategory.description } : { categoryName: "Unknown" }],
-      "time": this.addRecipeForm.controls['time'].value,
-      "level": this.addRecipeForm.controls['level'].value,
-      "layers": this.addRecipeForm.controls['layers'].value,
-      "instructions": this.addRecipeForm.controls['instructions'].value,
-      "image": this.addRecipeForm.controls['image'].value,
-      "isPrivate": this.addRecipeForm.controls['isPrivate'].value,
-      "userRecipe": this.addRecipeForm.controls['userRecipe']?.value || '' // assuming 'userRecipe' is part of the form
-    }
-    debugger
+    // Convert time to minutes as number
+    const [hours, minutes] = formValues.time.split(':').map((val: string) => parseInt(val, 10));
+    const timeInMinutes = hours * 60 + minutes;
 
-    this.recipeService.addRecipe(this.recipeModel).subscribe((data) => {
-      console.log(data);
-      this.recipeService.token = data.token;
+    const recipeModel: Recipe = {
+      recipeName: formValues.recipeName,
+      descripition: formValues.description,
+      categories: selectedCategory ? [{ categoryName: selectedCategory.description }] : [],
+      time: timeInMinutes,
+      level: formValues.level,
+      layers: formValues.layers.map((layer: any) => ({
+        descripitionOfLayer: layer.layerTitle,
+        ingredients: layer.layerDescription.split('\n')
+      })),
+      instructions: formValues.instructions,
+      image: formValues.image,
+      isPrivate: formValues.isPrivate === 'yes',
+      userRecipe: [
+        {
+          _id: '665854d6905b84814c711f70', // the user's ID as a string
+          UserName: 'judi', // replace with the actual username
+          email: 'neg3416@gmail.com' // replace with the actual email
+        }
+      ]
+    };
 
-    }, (err) => {
-      console.log(err);
-    });
+    this.recipeService.addRecipe(recipeModel).subscribe(
+      (data) => {
+        console.log('Recipe added successfully:', data);
+        this.recipeService.token = data.token;
+      },
+      (err) => {
+        console.error('Error adding recipe:', err);
+        alert(`Error: ${err.message}`);
+      }
+    );
   }
 
   onAddLayer() {
     const layerGroup = new FormGroup({
-      'layerTitle': new FormControl('Layer title:', Validators.required),
-      'layerDescription': new FormControl('Ingredients:', Validators.required)
+      layerTitle: new FormControl('', Validators.required),
+      layerDescription: new FormControl('', Validators.required)
     });
-    (<FormArray>this.addRecipeForm.get('layers')).push(layerGroup);
+    (this.addRecipeForm.get('layers') as FormArray).push(layerGroup);
   }
 
   get layersControls() {
-    return (<FormArray>this.addRecipeForm.get('layers')).controls;
+    return (this.addRecipeForm.get('layers') as FormArray).controls;
   }
 }
