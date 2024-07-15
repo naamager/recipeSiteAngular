@@ -24,6 +24,7 @@ export class AddRecipeComponent implements OnInit {
   newCategory = '';
 
   ngOnInit() {
+    
     this.categoryService.getAll().subscribe((data: Category[]) => {
       this.categories = data;
       console.log(this.categories, "Categories Loaded");
@@ -85,11 +86,14 @@ export class AddRecipeComponent implements OnInit {
       isPrivate: formValues.isPrivate === 'yes',
       userRecipe: [
         {
-          _id: '665854d6905b84814c711f70', // the user's ID as a string
-          UserName: 'judi', // replace with the actual username
-          email: 'neg3416@gmail.com' // replace with the actual email
+          _id: localStorage['userId'], 
+          UserName:localStorage['connectedUser'], 
+          email: localStorage['connectedUserEmail']
+          
+          
         }
       ]
+      
     };
 
     this.recipeService.addRecipe(recipeModel).subscribe(
@@ -102,6 +106,7 @@ export class AddRecipeComponent implements OnInit {
         alert(`Error: ${err.message}`);
       }
     );
+    alert("The recipe was successfully added!!")
   }
 
   onAddLayer() {

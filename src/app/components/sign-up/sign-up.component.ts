@@ -35,8 +35,10 @@ export class SignUpComponent {
         console.log(data);
         this.userService.token = data.token;
         const name=String(data.user.userName)
+        const id=String(data.user._id)
        console.log(data.user.userName);
-       this.userService.connectedUser=name
+       this.userService.connectedUser=name ,
+       this.userService.userID=id
         this.login = true;
         this.router.navigate(['/recipes']);
       }, (err) => {

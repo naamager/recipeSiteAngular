@@ -37,11 +37,16 @@ export class UsersService {
       localStorage.setItem('connectedUser', user);
     }
   }
+  public set userID(id: string | null) {
+    if (id) {
+      localStorage.setItem('userId', id);
+  
+  }}
 
   public get connectedUserEmail(): string | null {
     return localStorage.getItem('connectedUserEmail');
   }
-
+  
   public set connectedUserEmail(user: string | null) {
     if (user) {
       localStorage.setItem('connectedUserEmail', user);

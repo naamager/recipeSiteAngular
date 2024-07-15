@@ -34,8 +34,11 @@ export class LoginComponent {
         this.userService.token = data.token;
         const name = String(data.user.userName)
         const emailu = String(data.user.email)
+        const id = String(data.user['_id']);
+
         this.userService.connectedUser = name
         this.userService.connectedUserEmail = emailu
+        this.userService.userID = id
         this.login = true;
         this.router.navigate(['/recipes']);
         
